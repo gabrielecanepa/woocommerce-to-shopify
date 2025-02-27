@@ -1,0 +1,35 @@
+name: Code Quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Install Corepack
+        run: |
+          npm install -g corepack@latest
+          corepack enable
+          corepack install
+      - name: Install dependencies
+        run: |
+          pnpm install --ignore-scripts
+          echo ./node_modules/.bin >> $GITHUB_PATH
+      - run: pnpm build
+      - name: Run commitlint
+        if: github.event_name == 'push'
+        run: commitlint --last --verbose
+      - name: Run commitlint
+        if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+        run: commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+      - run: pnpm check

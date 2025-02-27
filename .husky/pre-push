@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# Run commitlint on new commits
+commitlint --from origin/main --to HEAD --verbose
+
+# Build the project and run checks
+pnpm build
+pnpm check

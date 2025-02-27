@@ -1,0 +1,79 @@
+{
+  "name": "woocommerce-to-shopify",
+  "version": "0.0.0",
+  "description": "Script and GitHub Actions workflow to import products and collections from WooCommerce to Shopify",
+  "type": "module",
+  "packageManager": "pnpm@10.5.2",
+  "scripts": {
+    "prepare": "husky",
+    "build": "tsup prettier.config.ts --clean && tsup src/index.ts",
+    "build:watch": "pnpm build --watch",
+    "sync": "node build/index.js",
+    "sync:dev": "tsx src/index.ts",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint --fix . && prettier --write .",
+    "check": "pnpm type-check && pnpm lint",
+    "release": "dotenv release-it --"
+  },
+  "dependencies": {
+    "@woocommerce/woocommerce-rest-api": "^1.0.1",
+    "dotenv": "^16.4.7",
+    "shopify-api-node": "^3.14.1"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/types": "^19.5.0",
+    "@eslint/js": "^9.21.0",
+    "@release-it/bumper": "^7.0.1",
+    "@stylistic/eslint-plugin": "^4.1.0",
+    "@stylistic/eslint-plugin-ts": "^4.1.0",
+    "@types/woocommerce__woocommerce-rest-api": "^1.0.5",
+    "commitlint": "^19.7.1",
+    "dotenv-cli": "^8.0.0",
+    "eslint": "^9.21.0",
+    "eslint-config-flat-gitignore": "^2.1.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-import-resolver-typescript": "^3.8.3",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-perfectionist": "^4.9.0",
+    "eslint-plugin-prefer-arrow-functions": "^3.6.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-sort-array-values": "^0.1.0",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.2",
+    "release-it": "^18.1.2",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.25.0"
+  },
+  "prettier": "./build/prettier.config.js",
+  "release-it": {
+    "hooks": {
+      "after:init": "pnpm build && pnpm check"
+    },
+    "git": {
+      "push": true,
+      "commitMessage": "chore: release v${version}",
+      "pushArgs": [
+        "--follow-tags",
+        "--no-verify"
+      ],
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "releaseName": "v${version}",
+      "autoGenerate": true
+    },
+    "npm": {
+      "publish": false
+    },
+    "plugins": {
+      "@release-it/bumper": {}
+    }
+  }
+}

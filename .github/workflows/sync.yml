@@ -1,0 +1,35 @@
+name: Sync
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  repository_dispatch:
+    types: [sync]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Install corepack
+        run: |
+          npm install -g corepack@latest
+          corepack enable
+          corepack install
+      - name: Install dependencies
+        run: |
+          pnpm install --ignore-scripts
+          echo ./node_modules/.bin >> $GITHUB_PATH
+      - run: pnpm build
+      - run: pnpm action sync
+        env:
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_NAME: ${{ vars.SHOPIFY_SHOP_NAME }}
+          WOOCOMMERCE_CONSUMER_KEY: ${{ secrets.WOOCOMMERCE_CONSUMER_KEY }}
+          WOOCOMMERCE_CONSUMER_SECRET: ${{ secrets.WOOCOMMERCE_CONSUMER_SECRET }}
+          WOOCOMMERCE_URL: ${{ vars.WOOCOMMERCE_URL }}
