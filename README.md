@@ -22,11 +22,11 @@ Script and GitHub Actions workflow to import products and collections from WooCo
 
 ## Prerequisites
 
-You must download and activate the Node.js version specified in `.node-version`.
+You must download and activate the Node.js version specified [here](.node-version).
 
 ## Setup
 
-Clone the project or [use it as a template](https://github.com/new?template_name=woocommerce-to-shopify&template_owner=gabrielecanepa):
+Clone the repository or [use it as a template](https://github.com/new?template_name=woocommerce-to-shopify&template_owner=gabrielecanepa):
 
 ```sh
 gh repo clone gabrielecanepa/woocommerce-to-shopify
@@ -60,7 +60,7 @@ Run the script with either:
 ```sh
 # Production mode
 pnpm sync
-# Development mode using tsx
+# Development mode (with tsx)
 pnpm sync:dev
 ```
 
@@ -79,7 +79,7 @@ Variables:
 - `SHOPIFY_SHOP_NAME`
 - `WOOCOMMERCE_URL`
 
-The workflow is configured to run every 5 minutes (GitHub's limit for scheduled workflows) and can be triggered:
+The workflow is configured to run every 5 minutes (GitHub's limit for scheduled workflows) and can be triggered in one of the following ways.
 
 - With a `workflow_dispatch` event
 - With a `repository_dispatch` event via the GitHub API:

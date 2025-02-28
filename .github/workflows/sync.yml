@@ -26,7 +26,7 @@ jobs:
           pnpm install --ignore-scripts
           echo ./node_modules/.bin >> $GITHUB_PATH
       - run: pnpm build
-      - run: pnpm action sync
+      - run: pnpm sync
         env:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_NAME: ${{ vars.SHOPIFY_SHOP_NAME }}
