@@ -1,7 +1,7 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset=".github/static/logo.png" width="220">
-    <source media="(prefers-color-scheme: dark)" srcset=".github/static/logo-dark.png" width="220">
+    <source media="(prefers-color-scheme: dark)" srcset=".github/static/logo-light.png" width="220">
     <img src=".github/static/logo.png" width="220">
   </picture>
   <h1>WooCommerce to Shopify</h1>
